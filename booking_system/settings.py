@@ -12,10 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 
 # Application definition
@@ -33,6 +32,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_filters",
+    "drf_yasg",
 ]
 LOCAL_APPS = [
     "core.common",
@@ -79,10 +79,11 @@ WSGI_APPLICATION = "booking_system.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": os.getenv("DATABASE_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": BASE_DIR / os.getenv("DATABASE_NAME", "db.sqlite3"),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -118,6 +119,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# Media files
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -158,4 +164,18 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": os.getenv("JWT_ROTATE_REFRESH_TOKENS", "True").lower()
     == "true",
     "UPDATE_LAST_LOGIN": os.getenv("JWT_UPDATE_LAST_LOGIN", "False").lower() == "true",
+}
+
+# Swagger settings
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token format: Bearer <token>",
+        },
+    },
+    "USE_SESSION_AUTH": False,
+    "PERSIST_AUTH": True,
 }
