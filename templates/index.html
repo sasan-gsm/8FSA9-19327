@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Booking System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn-cancel {
+            background-color: #f44336;
+        }
+
+        .btn-cancel:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Restaurant Booking System</h1>
+        <p>Welcome to our restaurant booking system. Make a reservation or cancel an existing one.</p>
+        <div class="buttons">
+            <a href="http://127.0.0.1:8000/api/bookings/book/" class="btn">Book a Table</a>
+            <a href="http://127.0.0.1:8000/api/bookings/cancel/" class="btn btn-cancel">Cancel Reservation</a>
+        </div>
+    </div>
+</body>
+
+</html>
