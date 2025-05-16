@@ -19,20 +19,21 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["username"].required = False
+
         self.fields["email"] = serializers.EmailField(required=False)
 
+        if "username" in self.fields:
+            self.fields["username"].required = False
+
     def validate(self, attrs):
-        # Check if either username or email is provided
         username = attrs.get("username")
         email = attrs.get("email")
 
         if not username and not email:
             raise serializers.ValidationError(
-                {"error": "Either username or email must be provided"}
+                {"error": "Username or email must be provided"}
             )
 
-        # If email but not username, find the user by email
         if email and not username:
             try:
                 user = User.objects.get(email=email)
@@ -47,7 +48,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
 
-        # Add custom claims
         token["username"] = user.username
         token["email"] = user.email
         token["first_name"] = user.first_name
