@@ -78,8 +78,12 @@ class Reservation(TimeStampedModel):
         """
         Create a new reservation for a user and specific number of people.
         """
-        # Find the best table for this reservation
-        optimal_table_info = Table.find_optimal_table(people_count)
+        # Import here to avoid circular imports
+        from core.tables.services import TableService
+
+        # Find the best table for this reservation using the service
+        table_service = TableService()
+        optimal_table_info = table_service.find_optimal_table(people_count)
 
         if not optimal_table_info:
             return None
